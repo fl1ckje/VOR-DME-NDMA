@@ -72,7 +72,7 @@ public class VORIndicator : MonoBehaviour
         angle2Clamped.w *= -1f;
 
         ClosestBeaconsChangedEvent?.Invoke(
-            (closestBeacons[0].name, closestBeacons[1].name),
+            (closestBeacons[0].fullName, closestBeacons[1].fullName),
             (angle1Clamped.eulerAngles.z, angle2Clamped.eulerAngles.z)
         );
     }

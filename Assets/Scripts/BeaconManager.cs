@@ -25,14 +25,14 @@ public class BeaconManager : MonoBehaviour
 
     public List<Beacon> beacons = new()
     {
-        new(52.283920052645854f, 104.28749346364783f, "Иркутск", BeaconType.VORDME, BeaconImpl.DEFAULT),
-        new(51.83649802605531f, 107.58217090901114f, "Улан-Удэ", BeaconType.VORDME, BeaconImpl.DEFAULT),
-        new(52.05368214721413f, 113.46639143197622f, "Чита", BeaconType.VORDME, BeaconImpl.DEFAULT),
-        new(56.29262613720093f, 101.71032953908764f, "Братск", BeaconType.VORDME, BeaconImpl.DEFAULT),
+        new(52.283920052645854f, 104.28749346364783f, "Иркутск", "UIII", BeaconType.VORDME, BeaconImpl.DEFAULT),
+        new(51.83649802605531f, 107.58217090901114f, "Улан-Удэ", "UUD", BeaconType.VORDME, BeaconImpl.DEFAULT),
+        new(52.05368214721413f, 113.46639143197622f, "Чита", "HTA", BeaconType.VORDME, BeaconImpl.DEFAULT),
+        new(56.29262613720093f, 101.71032953908764f, "Братск", "BTK", BeaconType.VORDME, BeaconImpl.DEFAULT),
 
-        new(53.39154577756098f, 109.00635888385294f, "Усть-Баргузин", BeaconType.DME, BeaconImpl.DEFAULT),
-        new(52.51695723137947f, 111.53375523122716f, "Сосново-Озерское", BeaconType.DME, BeaconImpl.CUSTOM),
-        new(55.78296050231323f, 109.54890162529887f, "Нижнеангарск", BeaconType.DME, BeaconImpl.CUSTOM)
+        new(53.39154577756098f, 109.00635888385294f, "Усть-Баргузин", "UIUI", BeaconType.DME, BeaconImpl.DEFAULT),
+        new(52.51695723137947f, 111.53375523122716f, "Сосново-Озерское", "UIUS", BeaconType.DME, BeaconImpl.CUSTOM),
+        new(55.78296050231323f, 109.54890162529887f, "Нижнеангарск", "NZG", BeaconType.DME, BeaconImpl.CUSTOM)
     };
 
     public void Initialize()
@@ -68,24 +68,21 @@ public class BeaconManager : MonoBehaviour
 
             NDTarget target = instance.AddComponent<NDTarget>();
 
-            switch (beacons[i].type)
+            target.iconSprite = beacons[i].type switch
             {
-                case BeaconType.VORDME:
-                    target.iconSprite = vordmeBeaconIcon;
-                    break;
-                case BeaconType.DME:
-                    target.iconSprite = dmeBeaconIcon;
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
+                BeaconType.VORDME => vordmeBeaconIcon,
+                BeaconType.DME => dmeBeaconIcon,
+                _ => throw new NotImplementedException(),
+            };
+
+            target.label = beacons[i].shortName;
 
             if (beacons[i].impl == BeaconImpl.CUSTOM)
             {
-                instance.GetComponent<Text>().text = beacons[i].name;
+                instance.GetComponent<Text>().text = beacons[i].fullName;
             }
 
-            instance.name = beacons[i].name;
+            instance.name = beacons[i].fullName;
             beacons[i].Instance = instance;
         }
     }

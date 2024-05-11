@@ -4,7 +4,8 @@ public class Beacon
 {
     private float lat;
     private float lng;
-    public string name;
+    public string fullName;
+    public string shortName;
     public BeaconType type;
     public BeaconImpl impl;
     private GameObject instance;
@@ -16,8 +17,7 @@ public class Beacon
         get => lat;
         set
         {
-            if (value > MapHelper.RIGHT_BOTTOM_LAT &&
-                value < MapHelper.LEFT_TOP_LAT)
+            if (value > MapHelper.RIGHT_BOTTOM_LAT && value < MapHelper.LEFT_TOP_LAT)
             {
                 lat = value;
             }
@@ -29,8 +29,7 @@ public class Beacon
         get => lng;
         set
         {
-            if (value > MapHelper.LEFT_TOP_LONG &&
-                value < MapHelper.RIGHT_BOTTOM_LONG)
+            if (value > MapHelper.LEFT_TOP_LONG && value < MapHelper.RIGHT_BOTTOM_LONG)
             {
                 lng = value;
             }
@@ -49,11 +48,12 @@ public class Beacon
         }
     }
 
-    public Beacon(float lat, float lng, string name, BeaconType type, BeaconImpl impl)
+    public Beacon(float lat, float lng, string fullName, string shortName, BeaconType type, BeaconImpl impl)
     {
         Lat = lat;
         Lng = lng;
-        this.name = name;
+        this.fullName = fullName;
+        this.shortName = shortName;
         this.type = type;
         this.impl = impl;
     }

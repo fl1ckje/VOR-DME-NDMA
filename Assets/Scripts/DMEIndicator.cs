@@ -33,7 +33,7 @@ public class DMEIndicator : MonoBehaviour
     public void OnClosestBeaconsChange()
     {
         ClosestBeaconsChangedEvent?.Invoke(
-            (closestBeacons[0].name, closestBeacons[1].name),
+            (closestBeacons[0].fullName, closestBeacons[1].fullName),
             (closestBeacons[0].distance, closestBeacons[1].distance)
         );
     }
