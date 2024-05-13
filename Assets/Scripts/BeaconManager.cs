@@ -6,95 +6,88 @@ using UnityEngine.UI;
 
 public class BeaconManager : MonoBehaviour
 {
-    public static BeaconManager Instance;
+	public static BeaconManager Instance;
 
-    [SerializeField]
-    private GameObject defaultBeaconPrefab;
+	[SerializeField]
+	private GameObject defaultBeaconPrefab;
 
-    [SerializeField]
-    private GameObject customBeaconPrefab;
+	[SerializeField]
+	private GameObject customBeaconPrefab;
 
-    [SerializeField]
-    private Sprite vorBeaconIcon;
+	[SerializeField]
+	private Sprite vorBeaconIcon;
 
-    [SerializeField]
-    private Sprite dmeBeaconIcon;
+	[SerializeField]
+	private Sprite dmeBeaconIcon;
 
-    [SerializeField]
-    private Sprite vordmeBeaconIcon;
+	[SerializeField]
+	private Sprite vordmeBeaconIcon;
 
-    public List<Beacon> beacons = new()
-    {
-        new(52.283920052645854f, 104.28749346364783f, "Иркутск", "UIII", BeaconType.VORDME, BeaconImpl.DEFAULT),
-        new(51.83649802605531f, 107.58217090901114f, "Улан-Удэ", "UUD", BeaconType.VORDME, BeaconImpl.DEFAULT),
-        new(52.05368214721413f, 113.46639143197622f, "Чита", "HTA", BeaconType.VORDME, BeaconImpl.DEFAULT),
-        new(56.29262613720093f, 101.71032953908764f, "Братск", "BTK", BeaconType.VORDME, BeaconImpl.DEFAULT),
+	public List<Beacon> beacons = new()
+	{
+		new(52.283920052645854f, 104.28749346364783f, "Иркутск", "UIII", BeaconType.VORDME, BeaconImpl.DEFAULT),
+		new(51.83649802605531f, 107.58217090901114f, "Улан-Удэ", "UUD", BeaconType.VORDME, BeaconImpl.DEFAULT),
+		new(52.05368214721413f, 113.46639143197622f, "Чита", "HTA", BeaconType.VORDME, BeaconImpl.DEFAULT),
+		new(56.29262613720093f, 101.71032953908764f, "Братск", "BTK", BeaconType.VORDME, BeaconImpl.DEFAULT),
 
-        new(53.39154577756098f, 109.00635888385294f, "Усть-Баргузин", "UIUI", BeaconType.DME, BeaconImpl.DEFAULT),
-        new(52.51695723137947f, 111.53375523122716f, "Сосново-Озерское", "UIUS", BeaconType.DME, BeaconImpl.CUSTOM),
-        new(55.78296050231323f, 109.54890162529887f, "Нижнеангарск", "NZG", BeaconType.DME, BeaconImpl.CUSTOM)
-    };
+		new(53.39154577756098f, 109.00635888385294f, "Усть-Баргузин", "UIUI", BeaconType.DME, BeaconImpl.DEFAULT),
+		new(52.51695723137947f, 111.53375523122716f, "Сосново-Озерское", "UIUS", BeaconType.DME, BeaconImpl.CUSTOM),
+		new(55.78296050231323f, 109.54890162529887f, "Нижнеангарск", "NZG", BeaconType.DME, BeaconImpl.CUSTOM)
+	};
 
-    public void Initialize()
-    {
-        Instance = this;
+	public void Initialize()
+	{
+		Instance = this;
+		SpawnBeacons();
+	}
 
-        SpawnBeacons();
-    }
+	private void Update()
+	{
+		if(Bootstrap.Instance.aircraft.isMoving)
+		{
+			SortBeaconsByDistance();
+		}
+	}
 
-    private void Update()
-    {
-        if (Bootstrap.Instance.aircraft.isMoving)
-        {
-            SortBeaconsByDistance();
-        }
-    }
+	private void SpawnBeacons()
+	{
+		for(int i = 0; i < beacons.Count; i++)
+		{
+			beacons[i].GO = Instantiate(beacons[i].impl switch
+			{
+				BeaconImpl.DEFAULT => defaultBeaconPrefab,
+				BeaconImpl.CUSTOM => customBeaconPrefab,
+				_ => throw new NotImplementedException(),
+			},
+			Bootstrap.Instance.map);
 
-    private void SpawnBeacons()
-    {
-        for (int i = 0; i < beacons.Count; i++)
-        {
-            Vector2 position = MapHelper.Instance.LatLongToXY(beacons[i].Lat, beacons[i].Lng);
+			Vector2 position = MapHelper.Instance.LatLongToXY(beacons[i].Lat, beacons[i].Lng);
+			beacons[i].GO.GetComponent<RectTransform>().anchoredPosition = position;
 
-            GameObject instance = Instantiate(beacons[i].impl switch
-            {
-                BeaconImpl.DEFAULT => defaultBeaconPrefab,
-                BeaconImpl.CUSTOM => customBeaconPrefab,
-                _ => throw new NotImplementedException(),
-            },
-            Bootstrap.Instance.map);
+			NDTarget target = beacons[i].GO.AddComponent<NDTarget>();
+			target.label = beacons[i].shortName;
+			target.iconSprite = beacons[i].type switch
+			{
+				BeaconType.VORDME => vordmeBeaconIcon,
+				BeaconType.DME => dmeBeaconIcon,
+				_ => throw new NotImplementedException(),
+			};
 
-            instance.GetComponent<RectTransform>().anchoredPosition = position;
+			if(beacons[i].impl == BeaconImpl.CUSTOM)
+			{
+				beacons[i].GO.GetComponent<Text>().text = beacons[i].fullName;
+			}
+		}
+	}
 
-            NDTarget target = instance.AddComponent<NDTarget>();
+	public void SortBeaconsByDistance()
+	{
+		for(int i = 0; i < beacons.Count; i++)
+		{
+			beacons[i].distance = Vector2.Distance(Bootstrap.Instance.aircraftTransform.position,
+															beacons[i].GO.transform.position);
+		}
 
-            target.iconSprite = beacons[i].type switch
-            {
-                BeaconType.VORDME => vordmeBeaconIcon,
-                BeaconType.DME => dmeBeaconIcon,
-                _ => throw new NotImplementedException(),
-            };
-
-            target.label = beacons[i].shortName;
-
-            if (beacons[i].impl == BeaconImpl.CUSTOM)
-            {
-                instance.GetComponent<Text>().text = beacons[i].fullName;
-            }
-
-            instance.name = beacons[i].fullName;
-            beacons[i].Instance = instance;
-        }
-    }
-
-    public void SortBeaconsByDistance()
-    {
-        for (int i = 0; i < beacons.Count; i++)
-        {
-            beacons[i].distance = Vector2.Distance(Bootstrap.Instance.aircraftTransform.position,
-                                                            beacons[i].Instance.transform.position);
-        }
-
-        beacons = beacons.OrderBy(b => b.distance).ToList();
-    }
+		beacons = beacons.OrderBy(b => b.distance).ToList();
+	}
 }

@@ -54,8 +54,8 @@ public class VORIndicator : MonoBehaviour
             return beacon.type == BeaconType.VOR || beacon.type == BeaconType.VORDME;
         }).Take(2).ToList();
 
-        dir1 = closestBeacons[0].Instance.transform.position - Bootstrap.Instance.aircraftTransform.position;
-        dir2 = closestBeacons[1].Instance.transform.position - Bootstrap.Instance.aircraftTransform.position;
+        dir1 = closestBeacons[0].GO.transform.position - Bootstrap.Instance.aircraftTransform.position;
+        dir2 = closestBeacons[1].GO.transform.position - Bootstrap.Instance.aircraftTransform.position;
 
         angle1 = Mathf.Atan2(dir1.normalized.y, dir1.normalized.x) * Mathf.Rad2Deg - 90f;
         angle2 = Mathf.Atan2(dir2.normalized.y, dir2.normalized.x) * Mathf.Rad2Deg - 90f;

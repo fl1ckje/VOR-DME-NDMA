@@ -1,13 +1,23 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Метка маяка на нав. дисплее
+/// </summary>
 public class NDBlip : MonoBehaviour
 {
-	public RectTransform rect;
-	public Image image;
+	/// <summary>
+	/// Позиция на карте
+	/// </summary>
+	public Vector2 MapPosition;
+
+	/// <summary>
+	/// Изображение метки
+	/// </summary>
+	public Image Image;
 
 	public void UpdatePosition()
 	{
-		image.rectTransform.localPosition = NavigationDisplay.Instance.TransformPosition(rect.anchoredPosition);
+		Image.rectTransform.localPosition = NavigationDisplay.Instance.TransformPosition(MapPosition);
 	}
 }

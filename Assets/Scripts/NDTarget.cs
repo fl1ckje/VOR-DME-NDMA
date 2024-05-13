@@ -2,14 +2,15 @@
 
 public class NDTarget : MonoBehaviour
 {
+	public string label;
 	public Sprite iconSprite;
 	public Color iconColor = Color.magenta;
 	private GameObject blip;
-	public string label;
 
 	private void Start()
 	{
-		blip = NavigationDisplay.Instance.AddObject(GetComponent<RectTransform>(), iconSprite, iconColor, label);
+		Vector2 position = GetComponent<RectTransform>().anchoredPosition;
+		blip = NavigationDisplay.Instance.AddObject(position, iconSprite, iconColor, label);
 	}
 
 	private void OnDisable()
