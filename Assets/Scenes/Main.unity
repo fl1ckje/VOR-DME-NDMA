@@ -645,7 +645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3526015b6e3fe14ebfadb7dca6c9055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  line: {fileID: 50227688}
+  Line: {fileID: 0}
 --- !u!1 &57663711
 GameObject:
   m_ObjectHideFlags: 0
@@ -6674,7 +6674,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   singleArrow: {fileID: 484995805}
   doubleArrow: {fileID: 548341782}
-  airplaneND: {fileID: 1405397571}
+  aircraftRect: {fileID: 1405397571}
 --- !u!4 &1037142917
 Transform:
   m_ObjectHideFlags: 0
@@ -10379,14 +10379,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5607def4afee9db49bf3f4c28c740fd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 2013979006}
+  mapRect: {fileID: 2013979006}
   wayDrawer: {fileID: 50227690}
   beaconManager: {fileID: 913309034}
   vorIndicator: {fileID: 1037142916}
   dmeIndicator: {fileID: 659854982}
   uiUpdater: {fileID: 749377513}
   aircraftPrefab: {fileID: 1456352048435877538, guid: fda98d06795f6dc448c54f3566456002, type: 3}
-  aircraftTransform: {fileID: 0}
+  aircraftRect: {fileID: 0}
   aircraft: {fileID: 0}
 --- !u!1 &1754566269
 GameObject:
