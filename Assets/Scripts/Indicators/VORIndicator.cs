@@ -5,10 +5,10 @@ using UnityEngine;
 public class VORIndicator : MonoBehaviour
 {
 	[SerializeField]
-	private RectTransform singleArrow;
+	private RectTransform shortRangeArrow;
 
 	[SerializeField]
-	private RectTransform doubleArrow;
+	private RectTransform midRangeArrow;
 
 	private const float ARROWS_ROTATION_SPEED = 1000f;
 
@@ -29,8 +29,8 @@ public class VORIndicator : MonoBehaviour
 	{
 		GetVORBeaconsAndRotations();
 
-		singleArrow.rotation = shortTargetRot;
-		doubleArrow.rotation = midTargetRot;
+		shortRangeArrow.rotation = shortTargetRot;
+		midRangeArrow.rotation = midTargetRot;
 
 		aircraftRect.rotation = Bootstrap.Instance.aircraftRect.rotation;
 	}
@@ -47,8 +47,8 @@ public class VORIndicator : MonoBehaviour
 
 	private void UpdateIndicator()
 	{
-		singleArrow.rotation = Quaternion.RotateTowards(singleArrow.rotation, shortTargetRot, ARROWS_ROTATION_SPEED * Time.deltaTime);
-		doubleArrow.rotation = Quaternion.RotateTowards(doubleArrow.rotation, midTargetRot, ARROWS_ROTATION_SPEED * Time.deltaTime);
+		shortRangeArrow.rotation = Quaternion.RotateTowards(shortRangeArrow.rotation, shortTargetRot, ARROWS_ROTATION_SPEED * Time.deltaTime);
+		midRangeArrow.rotation = Quaternion.RotateTowards(midRangeArrow.rotation, midTargetRot, ARROWS_ROTATION_SPEED * Time.deltaTime);
 		aircraftRect.rotation = Bootstrap.Instance.aircraftRect.rotation;
 	}
 
