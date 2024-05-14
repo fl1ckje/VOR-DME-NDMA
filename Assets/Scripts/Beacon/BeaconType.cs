@@ -1,6 +1,6 @@
 public enum BeaconType
 {
-    VOR,
-    DME,
-    VORDME
+	VOR,
+	DME,
+	VORDME
 }

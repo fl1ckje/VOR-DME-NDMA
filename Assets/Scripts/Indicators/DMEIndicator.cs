@@ -4,37 +4,38 @@ using UnityEngine;
 
 public class DMEIndicator : MonoBehaviour
 {
-    [SerializeField]
-    private List<Beacon> closestBeacons;
-    public event BeaconsDataHandler ClosestBeaconsChangedEvent;
+	[SerializeField]
+	private List<Beacon> closestBeacons;
 
-    public void Initialize()
-    {
-        GetDMEBeaconsAndDistances();
-    }
+	public event BeaconsDataHandler ClosestBeaconsChangedEvent;
 
-    private void Update()
-    {
-        if (Bootstrap.Instance.aircraft.isMoving)
-        {
-            GetDMEBeaconsAndDistances();
-            OnClosestBeaconsChange();
-        }
-    }
+	public void Initialize()
+	{
+		GetDMEBeaconsAndDistances();
+	}
 
-    private void GetDMEBeaconsAndDistances()
-    {
-        closestBeacons = BeaconManager.Instance.beacons.Where(beacon =>
-        {
-            return beacon.type == BeaconType.DME || beacon.type == BeaconType.VORDME;
-        }).Take(2).ToList();
-    }
+	private void Update()
+	{
+		if(Bootstrap.Instance.aircraft.isMoving)
+		{
+			GetDMEBeaconsAndDistances();
+			OnClosestBeaconsChange();
+		}
+	}
 
-    public void OnClosestBeaconsChange()
-    {
-        ClosestBeaconsChangedEvent?.Invoke(
-            (closestBeacons[0].fullName, closestBeacons[1].fullName),
-            (closestBeacons[0].distance, closestBeacons[1].distance)
-        );
-    }
+	private void GetDMEBeaconsAndDistances()
+	{
+		closestBeacons = BeaconManager.Instance.beacons.Where(beacon =>
+		{
+			return beacon.type == BeaconType.DME || beacon.type == BeaconType.VORDME;
+		}).Take(2).ToList();
+	}
+
+	public void OnClosestBeaconsChange()
+	{
+		ClosestBeaconsChangedEvent?.Invoke(
+			(closestBeacons[0].fullName, closestBeacons[1].fullName),
+			(closestBeacons[0].distance, closestBeacons[1].distance)
+		);
+	}
 }

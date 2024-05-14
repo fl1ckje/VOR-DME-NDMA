@@ -32,8 +32,8 @@ public class Beacon
 		get => lng;
 		set
 		{
-			if(value > MapHelper.LEFT_TOP_LONG &&
-				value < MapHelper.RIGHT_BOTTOM_LONG)
+			if(value > MapHelper.LEFT_TOP_LNG &&
+				value < MapHelper.RIGHT_BOTTOM_LNG)
 			{
 				lng = value;
 			}

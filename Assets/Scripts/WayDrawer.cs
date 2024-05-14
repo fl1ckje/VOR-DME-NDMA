@@ -3,98 +3,103 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class WayDrawer : MonoBehaviour
 {
-    public static WayDrawer Instance;
-    public LineRenderer line;
-    private const float LINE_WIDTH = 0.015f;
-    private Vector3 previousPosition;
-    private const float MIN_WAYPOINT_DISTANCE = 0.05f;
-    private RectTransform mapTransform;
-    private readonly Vector3[] mapBounds = new Vector3[4];
-    private Vector3 mouseWorldPos;
-    public event Position2DHandler MousePositionChangedEvent;
-    private Vector2 mouseAnchoredPos;
-    private Vector2 mouseAnchoredOffset;
+	public static WayDrawer Instance;
 
-    public void Initialize()
-    {
-        Instance = this;
+	public LineRenderer Line;
 
-        line = GetComponent<LineRenderer>();
-        line.positionCount = 1;
-        line.startWidth = line.endWidth = LINE_WIDTH;
+	private const float LINE_WIDTH = 0.015f;
+	private const float WAYPOINTS_DELTA = 0.06f;
 
-        previousPosition = transform.position;
+	private Vector3 previousPosition;
 
-        mapTransform = Bootstrap.Instance.map;
-        mapTransform.GetWorldCorners(mapBounds);
+	private RectTransform mapRect;
+	private readonly Vector3[] mapBounds = new Vector3[4];
 
-        mouseAnchoredOffset = new(MapHelper.Instance.MapSize.x / 2f, -MapHelper.Instance.MapSize.y / 2f);
-    }
+	private Vector3 mouseWorldPos;
+	private Vector2 mouseAnchoredPos;
+	private Vector2 mouseAnchoredOffset;
 
-    public void OnMousePositionChange()
-    {
-        mouseAnchoredPos = Bootstrap.Instance.map.InverseTransformPoint(mouseWorldPos);
-        mouseAnchoredPos += mouseAnchoredOffset;
+	public event Position2DHandler MousePositionChangedEvent;
 
-        MousePositionChangedEvent?.Invoke(MapHelper.Instance.XYToLatLong(mouseAnchoredPos));
-    }
+	public void Initialize()
+	{
+		Instance = this;
 
-    private void Update()
-    {
-        if (Input.GetAxisRaw("Mouse X") != 0f || Input.GetAxisRaw("Mouse Y") != 0f)
-        {
-            GetMousePosition();
+		Line = GetComponent<LineRenderer>();
+		Line.positionCount = 1;
+		Line.startWidth = Line.endWidth = LINE_WIDTH;
 
-            if (MousePosInMapBounds())
-            {
-                OnMousePositionChange();
-            }
-        }
-    }
+		previousPosition = transform.position;
 
-    public bool MousePosInMapBounds()
-    {
-        return mouseWorldPos.x > mapBounds[1].x && mouseWorldPos.x < mapBounds[2].x &&
-                mouseWorldPos.y > mapBounds[0].y && mouseWorldPos.y < mapBounds[1].y;
-    }
+		mapRect = Bootstrap.Instance.mapRect;
+		mapRect.GetWorldCorners(mapBounds);
 
-    private void GetMousePosition()
-    {
-        RectTransformUtility.ScreenPointToWorldPointInRectangle(Bootstrap.Instance.map,
-                                    Input.mousePosition, Camera.main, out mouseWorldPos);
+		mouseAnchoredOffset = new(MapHelper.Instance.MapSize.x / 2f, -MapHelper.Instance.MapSize.y / 2f);
+	}
 
-        mouseWorldPos.x = Mathf.Clamp(mouseWorldPos.x, mapBounds[1].x, mapBounds[2].x);
-        mouseWorldPos.y = Mathf.Clamp(mouseWorldPos.y, mapBounds[0].y, mapBounds[1].y);
-    }
+	public void OnMousePositionChange()
+	{
+		mouseAnchoredPos = Bootstrap.Instance.mapRect.InverseTransformPoint(mouseWorldPos);
+		mouseAnchoredPos += mouseAnchoredOffset;
 
-    public void CreateSingleWaypoint()
-    {
-        if (!MousePosInMapBounds())
-            return;
+		MousePositionChangedEvent?.Invoke(MapHelper.Instance.XYToLatLong(mouseAnchoredPos));
+	}
 
-        line.positionCount = 1;
-        line.SetPosition(0, mouseWorldPos);
-    }
+	private void Update()
+	{
+		if(Input.GetAxisRaw("Mouse X") != 0f || Input.GetAxisRaw("Mouse Y") != 0f)
+		{
+			GetMousePosition();
 
-    public void CreateMultipleWaypoints()
-    {
-        if (!MousePosInMapBounds())
-            return;
+			if(MousePosInMapBounds())
+			{
+				OnMousePositionChange();
+			}
+		}
+	}
 
-        if (Vector3.Distance(mouseWorldPos, previousPosition) > MIN_WAYPOINT_DISTANCE)
-        {
-            line.positionCount++;
+	public bool MousePosInMapBounds()
+	{
+		return mouseWorldPos.x > mapBounds[1].x && mouseWorldPos.x < mapBounds[2].x &&
+				mouseWorldPos.y > mapBounds[0].y && mouseWorldPos.y < mapBounds[1].y;
+	}
 
-            if (previousPosition == transform.position)
-            {
-                line.SetPosition(0, mouseWorldPos);
-            }
-            else
-            {
-                line.SetPosition(line.positionCount - 1, mouseWorldPos);
-            }
+	private void GetMousePosition()
+	{
+		RectTransformUtility.ScreenPointToWorldPointInRectangle(Bootstrap.Instance.mapRect,
+									Input.mousePosition, Camera.main, out mouseWorldPos);
 
-            previousPosition = mouseWorldPos;
-        }
-    }
+		mouseWorldPos.x = Mathf.Clamp(mouseWorldPos.x, mapBounds[1].x, mapBounds[2].x);
+		mouseWorldPos.y = Mathf.Clamp(mouseWorldPos.y, mapBounds[0].y, mapBounds[1].y);
+	}
+
+	public void CreateSingleWaypoint()
+	{
+		if(!MousePosInMapBounds())
+			return;
+
+		Line.positionCount = 1;
+		Line.SetPosition(0, mouseWorldPos);
+	}
+
+	public void CreateMultipleWaypoints()
+	{
+		if(!MousePosInMapBounds()) return;
+
+		if(Vector3.Distance(mouseWorldPos, previousPosition) > WAYPOINTS_DELTA)
+		{
+			Line.positionCount++;
+
+			if(previousPosition == transform.position)
+			{
+				Line.SetPosition(0, mouseWorldPos);
+			}
+			else
+			{
+				Line.SetPosition(Line.positionCount - 1, mouseWorldPos);
+			}
+
+			previousPosition = mouseWorldPos;
+		}
+	}
 }

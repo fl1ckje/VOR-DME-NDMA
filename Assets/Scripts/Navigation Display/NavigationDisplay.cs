@@ -19,10 +19,13 @@ public class NavigationDisplay : MonoBehaviour
 
 	private void Start()
 	{
-		aircraftRect = Bootstrap.Instance.aircraftTransform;
+		aircraftRect = Bootstrap.Instance.aircraftRect;
 	}
 
-	public Vector2 TransformPosition(Vector2 position) => position - aircraftRect.anchoredPosition;
+	public Vector2 TransformPosition(Vector2 position)
+	{
+		return position - aircraftRect.anchoredPosition;
+	}
 
 	public GameObject AddObject(Vector2 position, Sprite icon, Color color, string name)
 	{

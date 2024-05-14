@@ -4,38 +4,38 @@ using System;
 
 public class UIUpdater : MonoBehaviour
 {
-    [Header("Short-range beacon DME fields")]
-    [SerializeField]
-    private InputField shortRangeDMENameTextField;
+	[Header("Short-range beacon DME fields")]
+	[SerializeField]
+	private InputField shortRangeDMENameTextField;
 
-    [SerializeField]
-    private InputField shortRangeDMEDistanceTextField;
+	[SerializeField]
+	private InputField shortRangeDMEDistanceTextField;
 
-    [Header("Mid-range DME beacon fields")]
-    [SerializeField]
-    private InputField midRangeDMENameTextField;
+	[Header("Mid-range DME beacon fields")]
+	[SerializeField]
+	private InputField midRangeDMENameTextField;
 
-    [SerializeField]
-    private InputField midRangeDMEDistanceTextField;
+	[SerializeField]
+	private InputField midRangeDMEDistanceTextField;
 
-    public void Initialize()
-    {
-        Bootstrap.Instance.aircraft.OnPositionChange();
-        Bootstrap.Instance.wayDrawer.OnMousePositionChange();
-        Bootstrap.Instance.vorIndicator.OnClosestBeaconsChangeUpdate();
+	public void Initialize()
+	{
+		Bootstrap.Instance.aircraft.OnPositionChange();
+		Bootstrap.Instance.wayDrawer.OnMousePositionChange();
+		Bootstrap.Instance.vorIndicator.OnClosestBeaconsChangeUpdate();
 
-        Bootstrap.Instance.dmeIndicator.ClosestBeaconsChangedEvent += UpdateDMETextFields;
-        Bootstrap.Instance.dmeIndicator.OnClosestBeaconsChange();
-    }
+		Bootstrap.Instance.dmeIndicator.ClosestBeaconsChangedEvent += UpdateDMETextFields;
+		Bootstrap.Instance.dmeIndicator.OnClosestBeaconsChange();
+	}
 
-    private string FormatFloat(float value) => Math.Round(value, 3).ToString();
+	private string FormatFloat(float value) => Math.Round(value, 3).ToString();
 
-    private void UpdateDMETextFields((string, string) names, (float, float) distances)
-    {
-        shortRangeDMENameTextField.text = names.Item1;
-        midRangeDMENameTextField.text = names.Item2;
+	private void UpdateDMETextFields((string, string) names, (float, float) distances)
+	{
+		shortRangeDMENameTextField.text = names.Item1;
+		midRangeDMENameTextField.text = names.Item2;
 
-        shortRangeDMEDistanceTextField.text = FormatFloat(distances.Item1);
-        midRangeDMEDistanceTextField.text = FormatFloat(distances.Item2);
-    }
+		shortRangeDMEDistanceTextField.text = FormatFloat(distances.Item1);
+		midRangeDMEDistanceTextField.text = FormatFloat(distances.Item2);
+	}
 }

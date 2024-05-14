@@ -2,44 +2,46 @@ using UnityEngine;
 
 public class Bootstrap : MonoBehaviour
 {
-    public static Bootstrap Instance;
-    private MapHelper mapUtils;
+	public static Bootstrap Instance;
+	private MapHelper mapUtils;
 
-    [Header("Editor-linked references")]
-    public RectTransform map;
-    public WayDrawer wayDrawer;
-    public BeaconManager beaconManager;
-    public VORIndicator vorIndicator;
-    public DMEIndicator dmeIndicator;
+	[Header("Editor-linked refs")]
+	public RectTransform mapRect;
 
-    [SerializeField]
-    private UIUpdater uiUpdater;
+	public WayDrawer wayDrawer;
+	public BeaconManager beaconManager;
 
-    [SerializeField]
-    private GameObject aircraftPrefab;
+	public VORIndicator vorIndicator;
+	public DMEIndicator dmeIndicator;
 
-    [Header("Runtime-linked references")]
-    public RectTransform aircraftTransform;
-    public Aircraft aircraft;
+	[SerializeField]
+	private UIUpdater uiUpdater;
 
-    private void Awake()
-    {
-        Instance = this;
+	[SerializeField]
+	private GameObject aircraftPrefab;
 
-        mapUtils = new MapHelper();
-        mapUtils.Initialize();
+	[Header("Runtime-linked refs")]
+	public RectTransform aircraftRect;
+	public Aircraft aircraft;
 
-        wayDrawer.Initialize();
+	private void Awake()
+	{
+		Instance = this;
 
-        beaconManager.Initialize();
+		mapUtils = new MapHelper();
+		mapUtils.Initialize();
 
-        aircraftTransform = Instantiate(aircraftPrefab, map).GetComponent<RectTransform>();
-        aircraft = aircraftTransform.GetComponent<Aircraft>();
-        aircraft.Initialize();
+		wayDrawer.Initialize();
 
-        vorIndicator.Initialize();
-        dmeIndicator.Initialize();
-        
-        uiUpdater.Initialize();
-    }
+		beaconManager.Initialize();
+
+		aircraftRect = Instantiate(aircraftPrefab, mapRect).GetComponent<RectTransform>();
+		aircraft = aircraftRect.GetComponent<Aircraft>();
+		aircraft.Initialize();
+
+		vorIndicator.Initialize();
+		dmeIndicator.Initialize();
+
+		uiUpdater.Initialize();
+	}
 }

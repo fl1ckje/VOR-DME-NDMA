@@ -4,77 +4,83 @@ using UnityEngine;
 
 public class VORIndicator : MonoBehaviour
 {
-    [SerializeField]
-    private RectTransform singleArrow;
+	[SerializeField]
+	private RectTransform singleArrow;
 
-    [SerializeField]
-    private RectTransform doubleArrow;
-    private const float ARROWS_ROTATION_SPEED = 1000f;
+	[SerializeField]
+	private RectTransform doubleArrow;
 
-    [SerializeField]
-    private RectTransform airplaneND;
+	private const float ARROWS_ROTATION_SPEED = 1000f;
 
-    [SerializeField]
-    private List<Beacon> closestBeacons;
-    private Vector3 dir1, dir2;
-    private float angle1, angle2;
-    private Quaternion targetRot1, targetRot2;
-    Quaternion angle1Clamped, angle2Clamped;
-    public event BeaconsDataHandler ClosestBeaconsChangedEvent;
+	[SerializeField]
+	private RectTransform aircraftRect;
 
-    public void Initialize()
-    {
-        GetVORBeaconsAndRotations();
-        singleArrow.rotation = targetRot1;
-        doubleArrow.rotation = targetRot2;
-        airplaneND.rotation = Bootstrap.Instance.aircraftTransform.rotation;
-    }
+	[SerializeField]
+	private List<Beacon> closestBeacons;
 
-    private void Update()
-    {
-        if (Bootstrap.Instance.aircraft.isMoving)
-        {
-            GetVORBeaconsAndRotations();
-            OnClosestBeaconsChangeUpdate();
-            UpdateIndicator();
-        }
-    }
+	private Vector3 shortDir, midDir;
+	private float shortEulerAngle, midEulerAngle;
+	private Quaternion shortTargetRot, midTargetRot;
+	private Quaternion shortAngleClamped, midAngleClamped;
 
-    private void UpdateIndicator()
-    {
-        singleArrow.rotation = Quaternion.RotateTowards(singleArrow.rotation, targetRot1, ARROWS_ROTATION_SPEED * Time.deltaTime);
-        doubleArrow.rotation = Quaternion.RotateTowards(doubleArrow.rotation, targetRot2, ARROWS_ROTATION_SPEED * Time.deltaTime);
-        airplaneND.rotation = Bootstrap.Instance.aircraftTransform.rotation;
-    }
+	public event BeaconsDataHandler ClosestBeaconsChangedEvent;
 
-    private void GetVORBeaconsAndRotations()
-    {
-        closestBeacons = BeaconManager.Instance.beacons.Where(beacon =>
-        {
-            return beacon.type == BeaconType.VOR || beacon.type == BeaconType.VORDME;
-        }).Take(2).ToList();
+	public void Initialize()
+	{
+		GetVORBeaconsAndRotations();
 
-        dir1 = closestBeacons[0].GO.transform.position - Bootstrap.Instance.aircraftTransform.position;
-        dir2 = closestBeacons[1].GO.transform.position - Bootstrap.Instance.aircraftTransform.position;
+		singleArrow.rotation = shortTargetRot;
+		doubleArrow.rotation = midTargetRot;
 
-        angle1 = Mathf.Atan2(dir1.normalized.y, dir1.normalized.x) * Mathf.Rad2Deg - 90f;
-        angle2 = Mathf.Atan2(dir2.normalized.y, dir2.normalized.x) * Mathf.Rad2Deg - 90f;
+		aircraftRect.rotation = Bootstrap.Instance.aircraftRect.rotation;
+	}
 
-        targetRot1 = Quaternion.Euler(new Vector3(0f, 0f, angle1));
-        targetRot2 = Quaternion.Euler(new Vector3(0f, 0f, angle2));
-    }
+	private void Update()
+	{
+		if(Bootstrap.Instance.aircraft.isMoving)
+		{
+			GetVORBeaconsAndRotations();
+			OnClosestBeaconsChangeUpdate();
+			UpdateIndicator();
+		}
+	}
 
-    public void OnClosestBeaconsChangeUpdate()
-    {
-        angle1Clamped = Quaternion.Euler(0f, 0f, angle1);
-        angle1Clamped.w *= -1f;
-        angle2Clamped = Quaternion.Euler(0f, 0f, angle2);
-        angle2Clamped.w *= -1f;
+	private void UpdateIndicator()
+	{
+		singleArrow.rotation = Quaternion.RotateTowards(singleArrow.rotation, shortTargetRot, ARROWS_ROTATION_SPEED * Time.deltaTime);
+		doubleArrow.rotation = Quaternion.RotateTowards(doubleArrow.rotation, midTargetRot, ARROWS_ROTATION_SPEED * Time.deltaTime);
+		aircraftRect.rotation = Bootstrap.Instance.aircraftRect.rotation;
+	}
 
-        ClosestBeaconsChangedEvent?.Invoke(
-            (closestBeacons[0].fullName, closestBeacons[1].fullName),
-            (angle1Clamped.eulerAngles.z, angle2Clamped.eulerAngles.z)
-        );
-    }
+	private void GetVORBeaconsAndRotations()
+	{
+		closestBeacons = BeaconManager.Instance.beacons.Where(beacon =>
+		{
+			return beacon.type == BeaconType.VOR || beacon.type == BeaconType.VORDME;
+		}).Take(2).ToList();
+
+		shortDir = closestBeacons[0].GO.transform.position - Bootstrap.Instance.aircraftRect.position;
+		midDir = closestBeacons[1].GO.transform.position - Bootstrap.Instance.aircraftRect.position;
+
+		shortEulerAngle = Mathf.Atan2(shortDir.normalized.y, shortDir.normalized.x) * Mathf.Rad2Deg - 90f;
+		midEulerAngle = Mathf.Atan2(midDir.normalized.y, midDir.normalized.x) * Mathf.Rad2Deg - 90f;
+
+		shortTargetRot = Quaternion.Euler(new Vector3(0f, 0f, shortEulerAngle));
+		midTargetRot = Quaternion.Euler(new Vector3(0f, 0f, midEulerAngle));
+	}
+
+	public void OnClosestBeaconsChangeUpdate()
+	{
+		shortAngleClamped = Quaternion.Euler(0f, 0f, shortEulerAngle);
+		shortAngleClamped.w *= -1f;
+
+		midAngleClamped = Quaternion.Euler(0f, 0f, midEulerAngle);
+		midAngleClamped.w *= -1f;
+
+		ClosestBeaconsChangedEvent?.Invoke(
+			(closestBeacons[0].fullName, closestBeacons[1].fullName),
+			(shortAngleClamped.eulerAngles.z, midAngleClamped.eulerAngles.z)
+		);
+	}
 }
 

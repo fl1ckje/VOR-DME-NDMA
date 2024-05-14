@@ -23,6 +23,7 @@ public class BeaconManager : MonoBehaviour
 	[SerializeField]
 	private Sprite vordmeBeaconIcon;
 
+	// Хардкод элементов, т.к. так пока что хочет клиент
 	public List<Beacon> beacons = new()
 	{
 		new(52.283920052645854f, 104.28749346364783f, "Иркутск", "UIII", BeaconType.VORDME, BeaconImpl.DEFAULT),
@@ -59,7 +60,7 @@ public class BeaconManager : MonoBehaviour
 				BeaconImpl.CUSTOM => customBeaconPrefab,
 				_ => throw new NotImplementedException(),
 			},
-			Bootstrap.Instance.map);
+			Bootstrap.Instance.mapRect);
 
 			Vector2 position = MapHelper.Instance.LatLongToXY(beacons[i].Lat, beacons[i].Lng);
 			beacons[i].GO.GetComponent<RectTransform>().anchoredPosition = position;
@@ -84,7 +85,7 @@ public class BeaconManager : MonoBehaviour
 	{
 		for(int i = 0; i < beacons.Count; i++)
 		{
-			beacons[i].distance = Vector2.Distance(Bootstrap.Instance.aircraftTransform.position,
+			beacons[i].distance = Vector2.Distance(Bootstrap.Instance.aircraftRect.position,
 															beacons[i].GO.transform.position);
 		}
 

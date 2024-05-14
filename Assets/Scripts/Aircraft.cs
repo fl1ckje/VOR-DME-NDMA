@@ -41,8 +41,9 @@ public class Aircraft : MonoBehaviour
 	private Vector2 targetPosition;
 	private Vector2 targetDirection;
 
-	private const float START_LAT = 52.29775689091742f;
-	private const float START_LONG = 104.2721954266937f;
+	[SerializeField]
+	private float START_LAT = 52.29775689091742f;
+	private const float START_LNG = 104.2721954266937f;
 
 	public event Position2DHandler PositionChangedEvent;
 
@@ -53,7 +54,7 @@ public class Aircraft : MonoBehaviour
 	{
 		wayDrawer = WayDrawer.Instance;
 		rect = GetComponent<RectTransform>();
-		SetPosition(START_LAT, START_LONG);
+		SetPosition(START_LAT, START_LNG);
 	}
 
 	/// <summary>
@@ -91,7 +92,7 @@ public class Aircraft : MonoBehaviour
 	/// <param name="lng">Долгота</param>
 	public void SetPosition(float lat, float lng)
 	{
-		lng = Mathf.Clamp(lng, MapHelper.LEFT_TOP_LONG, MapHelper.RIGHT_BOTTOM_LONG);
+		lng = Mathf.Clamp(lng, MapHelper.LEFT_TOP_LNG, MapHelper.RIGHT_BOTTOM_LNG);
 		lat = Mathf.Clamp(lat, MapHelper.RIGHT_BOTTOM_LAT, MapHelper.LEFT_TOP_LAT);
 
 		rect.anchoredPosition = MapHelper.Instance.LatLongToXY(lat, lng);
@@ -114,12 +115,13 @@ public class Aircraft : MonoBehaviour
 	/// </summary>
 	private void GetWaypoints()
 	{
-		positions = new Vector3[wayDrawer.line.positionCount];
-		wayDrawer.line.GetPositions(positions);
+		positions = new Vector3[wayDrawer.Line.positionCount];
+		wayDrawer.Line.GetPositions(positions);
 
-		// позже надо сделать переключатель для этой штуки,
-		// чтобы в тестах не ждать ВС к подходу слишком долго
-		// transform.position = positions[0];
+		/* позже надо сделать переключатель, чтобы в 
+		 * тестах не ждать ВС к подходу слишком долго
+		 * transform.position = positions[0];
+		*/
 
 		isMoving = true;
 		wayPointIndex = 0;
@@ -139,7 +141,9 @@ public class Aircraft : MonoBehaviour
 			targetAngle = Mathf.Atan2(targetDirection.normalized.y, targetDirection.normalized.x) * Mathf.Rad2Deg + 90f;
 
 			if(targetAngle != 90f)
+			{
 				transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, 0f, targetAngle), 0.3f);
+			}
 
 			if(Vector2.Distance(transform.position, targetPosition) < 0.0005f)
 			{
