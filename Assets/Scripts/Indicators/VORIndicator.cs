@@ -41,11 +41,11 @@ public class VORIndicator : MonoBehaviour
 		{
 			GetVORBeaconsAndRotations();
 			OnClosestBeaconsChangeUpdate();
-			UpdateIndicator();
+			UpdateArrowIndicator();
 		}
 	}
 
-	private void UpdateIndicator()
+	private void UpdateArrowIndicator()
 	{
 		shortRangeArrow.rotation = Quaternion.RotateTowards(shortRangeArrow.rotation, shortTargetRot, ARROWS_ROTATION_SPEED * Time.deltaTime);
 		midRangeArrow.rotation = Quaternion.RotateTowards(midRangeArrow.rotation, midTargetRot, ARROWS_ROTATION_SPEED * Time.deltaTime);
