@@ -26,9 +26,8 @@ public class DMEIndicator : MonoBehaviour
 	private void GetDMEBeaconsAndDistances()
 	{
 		closestBeacons = BeaconManager.Instance.beacons.Where(beacon =>
-		{
-			return beacon.type == BeaconType.DME || beacon.type == BeaconType.VORDME;
-		}).Take(2).ToList();
+			beacon.type == BeaconType.DME || beacon.type == BeaconType.VORDME
+		).Take(2).ToList();
 	}
 
 	public void OnClosestBeaconsChange()
