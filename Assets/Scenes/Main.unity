@@ -5047,7 +5047,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 749377508}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9afa3b8bbed0d8042a72e25f06ba5c2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 95b0044572666ed4582ae2264cfd3f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   shortRangeDMENameTextField: {fileID: 37088392}
@@ -10383,7 +10383,7 @@ MonoBehaviour:
   beaconManager: {fileID: 913309034}
   vorIndicator: {fileID: 1037142916}
   dmeIndicator: {fileID: 659854982}
-  uiUpdater: {fileID: 749377513}
+  uiController: {fileID: 749377513}
   aircraftPrefab: {fileID: 1456352048435877538, guid: fda98d06795f6dc448c54f3566456002, type: 3}
   aircraftRect: {fileID: 0}
   aircraft: {fileID: 0}

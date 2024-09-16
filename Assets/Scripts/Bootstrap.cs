@@ -15,7 +15,7 @@ public class Bootstrap : MonoBehaviour
 	public DMEIndicator dmeIndicator;
 
 	[SerializeField]
-	private UIUpdater uiUpdater;
+	private UIController uiController;
 
 	[SerializeField]
 	private GameObject aircraftPrefab;
@@ -42,6 +42,6 @@ public class Bootstrap : MonoBehaviour
 		vorIndicator.Initialize();
 		dmeIndicator.Initialize();
 
-		uiUpdater.Initialize();
+		uiController.Initialize();
 	}
 }
