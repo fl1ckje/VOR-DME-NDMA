@@ -1,3 +1,6 @@
+/// <summary>
+/// Тип маяка
+/// </summary>
 public enum BeaconType
 {
 	VOR,
