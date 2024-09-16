@@ -33,12 +33,13 @@ public class Bootstrap : MonoBehaviour
 
 		wayDrawer.Initialize();
 
-		beaconManager.Initialize();
+		
 
 		aircraftRect = Instantiate(aircraftPrefab, mapRect).GetComponent<RectTransform>();
 		aircraft = aircraftRect.GetComponent<Aircraft>();
 		aircraft.Initialize();
 
+		beaconManager.Initialize();
 		vorIndicator.Initialize();
 		dmeIndicator.Initialize();
 
