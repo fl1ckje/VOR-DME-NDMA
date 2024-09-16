@@ -4,9 +4,12 @@ using System;
 
 public class UIController : MonoBehaviour
 {
-	[Header("Short-range beacon DME fields")]
+	[Header("Short-range DME beacon")]
 	[SerializeField]
 	private Toggle shortRangeDMEToggle;
+
+	[SerializeField]
+	private GameObject shortRangeDMEInfoContainer;
 
 	[SerializeField]
 	private InputField shortRangeDMENameTextField;
@@ -14,9 +17,12 @@ public class UIController : MonoBehaviour
 	[SerializeField]
 	private InputField shortRangeDMEDistanceTextField;
 
-	[Header("Mid-range DME beacon fields")]
+	[Header("Mid-range DME beacon")]
 	[SerializeField]
 	private Toggle midRangeDMEToggle;
+
+	[SerializeField]
+	private GameObject midRangeDMEInfoContainer;
 
 	[SerializeField]
 	private InputField midRangeDMENameTextField;
@@ -24,6 +30,33 @@ public class UIController : MonoBehaviour
 	[SerializeField]
 	private InputField midRangeDMEDistanceTextField;
 
+	[Header("Short-range VOR beacon")]
+	[SerializeField]
+	private Toggle shortRangeVORToggle;
+
+	[SerializeField]
+	private GameObject shortRangeVORInfoContainer;
+
+	[SerializeField]
+	private InputField shortRangeVORNameTextField;
+
+	[SerializeField]
+	private InputField shortRangeVORAzimuthTextField;
+
+	[Header("Mid-range VOR beacon")]
+	[SerializeField]
+	private Toggle midRangeVORToggle;
+
+	[SerializeField]
+	private GameObject midRangeVORInfoContainer;
+
+	[SerializeField]
+	private InputField midRangeVORNameTextField;
+
+	[SerializeField]
+	private InputField midRangeVORAzimuthTextField;
+
+	[Header("Aircraft Params Controls")]
 	[SerializeField]
 	private Slider aircraftSpeedSlider;
 
@@ -34,35 +67,48 @@ public class UIController : MonoBehaviour
 	{
 		Bootstrap.Instance.aircraft.OnPositionChange();
 		Bootstrap.Instance.wayDrawer.OnMousePositionChange();
-		Bootstrap.Instance.vorIndicator.OnClosestBeaconsChangeUpdate();
 
 		Bootstrap.Instance.dmeIndicator.ClosestBeaconsChangedEvent += UpdateDMETextFields;
 		Bootstrap.Instance.dmeIndicator.OnClosestBeaconsChange();
 
+		Bootstrap.Instance.vorIndicator.ClosestBeaconsChangedEvent += UpdateVORTextFields;
+		Bootstrap.Instance.vorIndicator.OnClosestBeaconsChange();
+
 		shortRangeDMEToggle.onValueChanged.AddListener(
-			(isOn) => EnableTextFields(isOn, shortRangeDMENameTextField, shortRangeDMEDistanceTextField)
+			(isOn) => shortRangeDMEInfoContainer.SetActive(isOn)
 		);
 
 		midRangeDMEToggle.onValueChanged.AddListener(
-			(isOn) => EnableTextFields(isOn, midRangeDMENameTextField, midRangeDMEDistanceTextField)
+			(isOn) => midRangeDMEInfoContainer.SetActive(isOn)
 		);
-	}
 
-	private void EnableTextFields(bool state, params InputField[] inputFields)
-	{
-		foreach(InputField field in inputFields)
-			field.gameObject.SetActive(state);
+		shortRangeVORToggle.onValueChanged.AddListener(
+			(isOn) => shortRangeVORInfoContainer.SetActive(isOn)
+		);
+
+		midRangeVORToggle.onValueChanged.AddListener(
+			(isOn) => midRangeVORInfoContainer.SetActive(isOn)
+		);
 	}
 
 	private string FormatFloat(float value) =>
 		Math.Round(value, 3).ToString();
 
-	private void UpdateDMETextFields((string, string) names, (float, float) distances)
+	private void UpdateDMETextFields((string, string) names, (float, float) values)
 	{
 		shortRangeDMENameTextField.text = names.Item1;
-		midRangeDMENameTextField.text = names.Item2;
+		shortRangeDMEDistanceTextField.text = FormatFloat(values.Item1);
 
-		shortRangeDMEDistanceTextField.text = FormatFloat(distances.Item1);
-		midRangeDMEDistanceTextField.text = FormatFloat(distances.Item2);
+		midRangeDMENameTextField.text = names.Item2;
+		midRangeDMEDistanceTextField.text = FormatFloat(values.Item2);
+	}
+
+	private void UpdateVORTextFields((string, string) names, (float, float) values)
+	{
+		shortRangeVORNameTextField.text = names.Item1;
+		shortRangeVORAzimuthTextField.text = FormatFloat(values.Item1);
+
+		midRangeVORNameTextField.text = names.Item2;
+		midRangeVORAzimuthTextField.text = FormatFloat(values.Item2);
 	}
 }
