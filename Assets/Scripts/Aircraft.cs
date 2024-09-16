@@ -31,7 +31,9 @@ public class Aircraft : MonoBehaviour
 	/// <summary>
 	/// Скорость движения
 	/// </summary>
-	private const float MOVE_SPEED = 1.5f;
+	[SerializeField]
+	[Range(0.1f, 1.5f)]
+	private float moveSpeed = 1.2f;
 
 	/// <summary>
 	/// Угол поворота при движении до текущей точки
@@ -42,8 +44,10 @@ public class Aircraft : MonoBehaviour
 	private Vector2 targetDirection;
 
 	[SerializeField]
-	private float START_LAT = 52.29775689091742f;
-	private const float START_LNG = 104.2721954266937f;
+	private float startLat = 52.29775689091742f;
+
+	[SerializeField]
+	private float startLng = 104.2721954266937f;
 
 	public event Position2DHandler PositionChangedEvent;
 
@@ -54,16 +58,14 @@ public class Aircraft : MonoBehaviour
 	{
 		wayDrawer = WayDrawer.Instance;
 		rect = GetComponent<RectTransform>();
-		SetPosition(START_LAT, START_LNG);
+		SetPosition(startLat, startLng);
 	}
 
 	/// <summary>
 	/// Срабатывает при смене позиции
 	/// </summary>
-	public void OnPositionChange()
-	{
+	public void OnPositionChange() =>
 		PositionChangedEvent?.Invoke(MapHelper.Instance.XYToLatLong(rect.anchoredPosition));
-	}
 
 	private void Update()
 	{
@@ -135,7 +137,7 @@ public class Aircraft : MonoBehaviour
 		if(isMoving && positions.Length > 0)
 		{
 			targetPosition = positions[wayPointIndex];
-			transform.position = Vector2.MoveTowards(transform.position, targetPosition, MOVE_SPEED * Time.deltaTime);
+			transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
 			targetDirection = targetPosition - (Vector2)transform.position;
 			targetAngle = Mathf.Atan2(targetDirection.normalized.y, targetDirection.normalized.x) * Mathf.Rad2Deg + 90f;

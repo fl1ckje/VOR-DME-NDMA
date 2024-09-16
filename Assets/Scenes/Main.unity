@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6672,8 +6671,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10a3af7675bf7b44b9df6b3c6d52fcc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  singleArrow: {fileID: 484995805}
-  doubleArrow: {fileID: 548341782}
+  shortRangeArrow: {fileID: 484995805}
+  midRangeArrow: {fileID: 548341782}
   aircraftRect: {fileID: 1405397571}
 --- !u!4 &1037142917
 Transform:
