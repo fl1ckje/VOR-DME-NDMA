@@ -40,6 +40,7 @@ public class BeaconManager : MonoBehaviour
 	{
 		Instance = this;
 		SpawnBeacons();
+		SortBeaconsByDistance();
 	}
 
 	private void Update()
