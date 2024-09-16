@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 37088393}
   - component: {fileID: 37088392}
   m_Layer: 5
-  m_Name: Name InputField
+  m_Name: DME1 Name InputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -454,7 +454,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 
+  m_Text: Name1
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 1
@@ -1527,7 +1527,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: Name1
 --- !u!222 &198607139
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1776,8 +1776,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 115.12, y: -687.75}
-  m_SizeDelta: {x: 230.23, y: 164.47}
+  m_AnchoredPosition: {x: 115.12, y: -707.76}
+  m_SizeDelta: {x: 230.23, y: 204.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &248121564
 MonoBehaviour:
@@ -2253,7 +2253,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 315936247}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
@@ -3086,7 +3086,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: Distance2
 --- !u!222 &472959260
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5054,6 +5054,8 @@ MonoBehaviour:
   shortRangeDMEDistanceTextField: {fileID: 1186902177}
   midRangeDMENameTextField: {fileID: 897436592}
   midRangeDMEDistanceTextField: {fileID: 1369362971}
+  aircraftSpeedSlider: {fileID: 0}
+  aircraftSpeedText: {fileID: 0}
 --- !u!1 &749753271
 GameObject:
   m_ObjectHideFlags: 0
@@ -5936,7 +5938,7 @@ GameObject:
   - component: {fileID: 897436593}
   - component: {fileID: 897436592}
   m_Layer: 5
-  m_Name: Name InputField
+  m_Name: DME2 Name InputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6026,7 +6028,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 
+  m_Text: Name2
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 1
@@ -6391,7 +6393,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 954200717}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
@@ -6538,8 +6540,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 434.88, y: -687.75}
-  m_SizeDelta: {x: 230.23, y: 164.49}
+  m_AnchoredPosition: {x: 434.88, y: -707.76}
+  m_SizeDelta: {x: 230.23, y: 204.51}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1009388034
 MonoBehaviour:
@@ -7093,7 +7095,7 @@ GameObject:
   - component: {fileID: 1186902178}
   - component: {fileID: 1186902177}
   m_Layer: 5
-  m_Name: Distance InputField
+  m_Name: DME1 Distance InputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7183,7 +7185,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 
+  m_Text: Distance1
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 1
@@ -7859,7 +7861,7 @@ GameObject:
   - component: {fileID: 1369362972}
   - component: {fileID: 1369362971}
   m_Layer: 5
-  m_Name: Distance InputField
+  m_Name: DME2 Distance InputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7949,7 +7951,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 
+  m_Text: Distance2
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 1
@@ -8115,7 +8117,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1394993714}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
@@ -9011,8 +9013,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 685, y: -0.0050049}
-  m_SizeDelta: {x: 550, y: 769.99}
+  m_AnchoredPosition: {x: 685, y: 20}
+  m_SizeDelta: {x: 550, y: 810.01}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1529920398
 MonoBehaviour:
@@ -10070,7 +10072,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1697859141}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
@@ -10979,7 +10981,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: Name2
 --- !u!222 &1851575927
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11273,7 +11275,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: Distance1
 --- !u!222 &1950961711
 CanvasRenderer:
   m_ObjectHideFlags: 0
