@@ -40,7 +40,7 @@ public class VORIndicator : MonoBehaviour
 		if(Bootstrap.Instance.aircraft.isMoving)
 		{
 			GetVORBeaconsAndRotations();
-			OnClosestBeaconsChangeUpdate();
+			OnClosestBeaconsChange();
 			UpdateArrowIndicator();
 		}
 	}
@@ -69,7 +69,7 @@ public class VORIndicator : MonoBehaviour
 		midTargetRot = Quaternion.Euler(new Vector3(0f, 0f, midEulerAngle));
 	}
 
-	public void OnClosestBeaconsChangeUpdate()
+	public void OnClosestBeaconsChange()
 	{
 		shortAngleClamped = Quaternion.Euler(0f, 0f, shortEulerAngle);
 		shortAngleClamped.w *= -1f;
