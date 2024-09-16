@@ -33,8 +33,6 @@ public class Bootstrap : MonoBehaviour
 
 		wayDrawer.Initialize();
 
-		
-
 		aircraftRect = Instantiate(aircraftPrefab, mapRect).GetComponent<RectTransform>();
 		aircraft = aircraftRect.GetComponent<Aircraft>();
 		aircraft.Initialize();
