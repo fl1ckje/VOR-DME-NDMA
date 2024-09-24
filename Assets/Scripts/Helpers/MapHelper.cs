@@ -57,7 +57,7 @@ public class MapHelper
 	/// <summary>
 	/// Приведение метров к морским милям
 	/// </summary>
-	private const float MILES_PER_METER = 1609.34f;
+	private const float MILES_PER_METER = 0.00053995680345572f;
 
 	public void Initialize()
 	{
