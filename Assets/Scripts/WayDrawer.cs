@@ -47,11 +47,11 @@ public class WayDrawer : MonoBehaviour
 
 	private void Update()
 	{
-		if(Input.GetAxisRaw("Mouse X") != 0f || Input.GetAxisRaw("Mouse Y") != 0f)
+		if (Input.GetAxisRaw("Mouse X") != 0f || Input.GetAxisRaw("Mouse Y") != 0f)
 		{
 			GetMousePosition();
 
-			if(MousePosInMapBounds())
+			if (MousePosInMapBounds())
 			{
 				OnMousePositionChange();
 			}
@@ -75,7 +75,7 @@ public class WayDrawer : MonoBehaviour
 
 	public void CreateSingleWaypoint()
 	{
-		if(!MousePosInMapBounds())
+		if (!MousePosInMapBounds())
 			return;
 
 		Line.positionCount = 1;
@@ -84,13 +84,13 @@ public class WayDrawer : MonoBehaviour
 
 	public void CreateMultipleWaypoints()
 	{
-		if(!MousePosInMapBounds()) return;
+		if (!MousePosInMapBounds()) return;
 
-		if(Vector3.Distance(mouseWorldPos, previousPosition) > WAYPOINTS_DELTA)
+		if (Vector3.Distance(mouseWorldPos, previousPosition) > WAYPOINTS_DELTA)
 		{
 			Line.positionCount++;
 
-			if(previousPosition == transform.position)
+			if (previousPosition == transform.position)
 			{
 				Line.SetPosition(0, mouseWorldPos);
 			}
