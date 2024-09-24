@@ -11,14 +11,14 @@ public class Beacon
 
 	public BeaconType type;
 	public BeaconImpl impl;
-	
+
 	private float lat;
 	public float Lat
 	{
 		get => lat;
 		set
 		{
-			if(value > MapHelper.RIGHT_BOTTOM_LAT &&
+			if (value > MapHelper.RIGHT_BOTTOM_LAT &&
 				value < MapHelper.LEFT_TOP_LAT)
 			{
 				lat = value;
@@ -32,7 +32,7 @@ public class Beacon
 		get => lng;
 		set
 		{
-			if(value > MapHelper.LEFT_TOP_LNG &&
+			if (value > MapHelper.LEFT_TOP_LNG &&
 				value < MapHelper.RIGHT_BOTTOM_LNG)
 			{
 				lng = value;
@@ -46,13 +46,15 @@ public class Beacon
 		get => go;
 		set
 		{
-			if(value != null)
+			if (value != null)
 			{
 				go = value;
 				go.name = fullName;
 			}
 		}
 	}
+
+	public Vector2 AnchoredPos { get; set; }
 
 	public Beacon(float lat, float lng, string fullName, string shortName, BeaconType type, BeaconImpl impl)
 	{

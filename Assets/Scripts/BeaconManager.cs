@@ -40,20 +40,20 @@ public class BeaconManager : MonoBehaviour
 	{
 		Instance = this;
 		SpawnBeacons();
-		SortBeaconsByDistance();
+		GetBeaconsDistancesAndSort();
 	}
 
 	private void Update()
 	{
-		if(Bootstrap.Instance.aircraft.isMoving)
+		if (Bootstrap.Instance.aircraft.isMoving)
 		{
-			SortBeaconsByDistance();
+			GetBeaconsDistancesAndSort();
 		}
 	}
 
 	private void SpawnBeacons()
 	{
-		for(int i = 0; i < beacons.Count; i++)
+		for (int i = 0; i < beacons.Count; i++)
 		{
 			beacons[i].GO = Instantiate(beacons[i].impl switch
 			{
@@ -65,6 +65,7 @@ public class BeaconManager : MonoBehaviour
 
 			Vector2 position = MapHelper.Instance.LatLongToXY(beacons[i].Lat, beacons[i].Lng);
 			beacons[i].GO.GetComponent<RectTransform>().anchoredPosition = position;
+			beacons[i].AnchoredPos = position;
 
 			NDTarget target = beacons[i].GO.AddComponent<NDTarget>();
 			target.label = beacons[i].shortName;
@@ -75,19 +76,23 @@ public class BeaconManager : MonoBehaviour
 				_ => throw new NotImplementedException(),
 			};
 
-			if(beacons[i].impl == BeaconImpl.CUSTOM)
+			if (beacons[i].impl == BeaconImpl.CUSTOM)
 			{
 				beacons[i].GO.GetComponent<Text>().text = beacons[i].fullName;
 			}
 		}
 	}
 
-	public void SortBeaconsByDistance()
+	public void GetBeaconsDistancesAndSort()
 	{
-		for(int i = 0; i < beacons.Count; i++)
+		(float, float) aircraftPoint = MapHelper.Instance.XYToLatLong(Bootstrap.Instance.aircraftRect.anchoredPosition);
+		for (int i = 0; i < beacons.Count; i++)
 		{
-			beacons[i].distance = Vector2.Distance(Bootstrap.Instance.aircraftRect.position,
-															beacons[i].GO.transform.position);
+
+			// beacons[i].distance = Vector2.Distance(Bootstrap.Instance.aircraftRect.position,
+			// 											beacons[i].GO.transform.position);
+			(float, float) beaconPoint = MapHelper.Instance.XYToLatLong(beacons[i].AnchoredPos);
+			beacons[i].distance = MapHelper.Instance.DistanceLatLngMiles(aircraftPoint, beaconPoint);
 		}
 
 		beacons = beacons.OrderBy(b => b.distance).ToList();

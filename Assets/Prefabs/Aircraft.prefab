@@ -90,5 +90,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMoving: 0
   moveSpeed: 1.2
-  startLat: 52.297756
-  startLng: 104.272194
+  startLat: 52.28392
+  startLng: 104.28749

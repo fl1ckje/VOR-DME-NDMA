@@ -49,6 +49,16 @@ public class MapHelper
 	/// </summary>
 	private const float lngErrCompensation = 1.43f;
 
+	/// <summary>
+	/// Радиус Земли в метрах
+	/// </summary>
+	private const float EARTH_RADIUS = 6371000f;
+
+	/// <summary>
+	/// Приведение метров к морским милям
+	/// </summary>
+	private const float MILES_PER_METER = 1609.34f;
+
 	public void Initialize()
 	{
 		Instance = this;
@@ -73,4 +83,42 @@ public class MapHelper
 
 		return (pixel.y * latStep + LEFT_TOP_LAT, pixel.x * lngStep + LEFT_TOP_LNG);
 	}
+
+	/// <summary>
+	/// Считает расстояние между точками в метрах по формуле Хаверсина
+	/// </summary>
+	/// <param name="p1">Широта и долгота точки 1</param>
+	/// <param name="p2">Широта и долгота точки 2</param>
+	/// <returns></returns>
+	public float DistanceLatLngMeters((float, float) p1, (float, float) p2)
+	{
+		// Преобразование составляющих координат в радианы
+		float lat1Rad = ToRadians(p1.Item1);
+		float lon1Rad = ToRadians(p1.Item2);
+		float lat2Rad = ToRadians(p2.Item1);
+		float lon2Rad = ToRadians(p2.Item2);
+
+		// Вычисление разницы в широте и долготе между точками
+		float dLat = lat2Rad - lat1Rad;
+		float dLon = lon2Rad - lon1Rad;
+
+		// Вычисление основных угловых функций
+		float a = Mathf.Sin(dLat / 2f) * Mathf.Sin(dLat / 2f) +
+				Mathf.Cos(lat1Rad) * Mathf.Cos(lat2Rad) *
+				Mathf.Sin(dLon / 2f) * Mathf.Sin(dLon / 2f);
+
+		// Расчет расстояния
+		return EARTH_RADIUS * 2f * Mathf.Atan2(Mathf.Sqrt(a), Mathf.Sqrt(1f - a));
+	}
+
+	/// <summary>
+	/// Считает расстояние между точками в морских милях по формуле Хаверсина
+	/// </summary>
+	/// <param name="p1">Широта и долгота точки 1</param>
+	/// <param name="p2">Широта и долгота точки 2</param>
+	/// <returns></returns>
+	public float DistanceLatLngMiles((float, float) p1, (float, float) p2) =>
+		DistanceLatLngMeters(p1, p2) * MILES_PER_METER;
+
+	private float ToRadians(float deg) => deg * Mathf.Deg2Rad;
 }
