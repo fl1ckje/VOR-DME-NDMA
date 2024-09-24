@@ -4,7 +4,7 @@ public class NDTarget : MonoBehaviour
 {
 	public string label;
 	public Sprite iconSprite;
-	public Color iconColor = Color.magenta;
+	private Color iconColor = Color.magenta;
 	private GameObject blip;
 
 	private void Start()

@@ -16,8 +16,6 @@ public class NDBlip : MonoBehaviour
 	/// </summary>
 	public Image Image;
 
-	public void UpdatePosition()
-	{
+	public void UpdatePosition() =>
 		Image.rectTransform.localPosition = NavigationDisplay.Instance.TransformPosition(MapPosition);
-	}
 }
