@@ -4,18 +4,49 @@ public class MapHelper
 {
 	public static MapHelper Instance;
 
+	/// <summary>
+	/// Размер изображения карты (вместе с ним и GO с компонентом Image)
+	/// </summary>
 	public readonly Vector2Int MapSize = new(1370, 770);
 
+	/// <summary>
+	/// Широта левого верхнего пикселя
+	/// </summary>
 	public const float LEFT_TOP_LAT = 58.237404433709145f;
+
+	/// <summary>
+	/// Долгота левого верхнего пикселя
+	/// </summary>
 	public const float LEFT_TOP_LNG = 92.4907995336642f;
 
+	/// <summary>
+	/// Широта правого нижнего пикселя
+	/// </summary>
 	public const float RIGHT_BOTTOM_LAT = 50.39817431586244f;
+
+	/// <summary>
+	/// Долгота правого нижнего пикселя
+	/// </summary>
 	public const float RIGHT_BOTTOM_LNG = 116.5069128147453f;
 
+	/// <summary>
+	/// Шаг в 1 пиксель по широте
+	/// </summary>
 	private float latStep;
+
+	/// <summary>
+	/// Шаг в 1 пиксель по долготе
+	/// </summary>
 	private float lngStep;
 
+	/// <summary>
+	/// Коэффициент компенсации ошибки по широте
+	/// </summary>
 	private const float latErrCompensation = 13.7f;
+
+	/// <summary>
+	/// Коэффициент компенсации ошибки по долготе
+	/// </summary>
 	private const float lngErrCompensation = 1.43f;
 
 	public void Initialize()
