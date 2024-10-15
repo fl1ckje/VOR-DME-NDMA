@@ -120,5 +120,5 @@ public class MapHelper
 	public float DistanceLatLngMiles((float, float) p1, (float, float) p2) =>
 		DistanceLatLngMeters(p1, p2) * MILES_PER_METER;
 
-	private float ToRadians(float deg) => deg * Mathf.Deg2Rad;
+	private static float ToRadians(float deg) => deg * Mathf.Deg2Rad;
 }
