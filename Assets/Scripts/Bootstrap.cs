@@ -22,7 +22,6 @@ public class Bootstrap : MonoBehaviour
 
 	[Header("Runtime-linked refs")]
 	public RectTransform aircraftRect;
-	public Aircraft aircraft;
 
 	private void Awake()
 	{
@@ -34,8 +33,7 @@ public class Bootstrap : MonoBehaviour
 		wayDrawer.Initialize();
 
 		aircraftRect = Instantiate(aircraftPrefab, mapRect).GetComponent<RectTransform>();
-		aircraft = aircraftRect.GetComponent<Aircraft>();
-		aircraft.Initialize();
+		aircraftRect.GetComponent<Aircraft>().Initialize();
 
 		beaconManager.Initialize();
 		vorIndicator.Initialize();

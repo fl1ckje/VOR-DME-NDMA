@@ -37,7 +37,7 @@ public class VORIndicator : MonoBehaviour
 
 	private void Update()
 	{
-		if(Bootstrap.Instance.aircraft.isMoving)
+		if(Aircraft.Instance.isMoving)
 		{
 			GetVORBeaconsAndRotations();
 			OnClosestBeaconsChange();

@@ -16,7 +16,7 @@ public class DMEIndicator : MonoBehaviour
 
 	private void Update()
 	{
-		if(Bootstrap.Instance.aircraft.isMoving)
+		if(Aircraft.Instance.isMoving)
 		{
 			GetDMEBeaconsAndDistances();
 			OnClosestBeaconsChange();

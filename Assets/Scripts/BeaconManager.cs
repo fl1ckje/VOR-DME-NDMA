@@ -45,7 +45,7 @@ public class BeaconManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (Bootstrap.Instance.aircraft.isMoving)
+		if (Aircraft.Instance.isMoving)
 		{
 			GetBeaconsDistancesAndSort();
 		}
