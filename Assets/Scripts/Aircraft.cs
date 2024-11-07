@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -6,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(RectTransform))]
 public class Aircraft : MonoBehaviour
 {
+	public static Aircraft Instance;
 	private RectTransform rect;
 
 	/// <summary>
@@ -29,11 +31,27 @@ public class Aircraft : MonoBehaviour
 	public bool isMoving;
 
 	/// <summary>
-	/// Скорость движения
+	/// Минимальная скорость движения
+	/// </summary>
+	public const float MIN_SPEED = 0.5f;
+
+	/// <summary>
+	/// Максимальная скорость движения
+	/// </summary>
+	public const float MAX_SPEED = 2f;
+
+	/// <summary>
+	/// Текущая скорость движения
 	/// </summary>
 	[SerializeField]
-	[Range(0.1f, 1.5f)]
+	[Range(MIN_SPEED, MAX_SPEED)]
 	private float moveSpeed = 1.2f;
+
+	public float MoveSpeed
+	{
+		get => moveSpeed;
+		set => moveSpeed = (float)Math.Round(Mathf.Clamp(value, MIN_SPEED, MAX_SPEED), 2);
+	}
 
 	/// <summary>
 	/// Угол поворота при движении до текущей точки
@@ -56,6 +74,7 @@ public class Aircraft : MonoBehaviour
 	/// </summary>
 	public void Initialize()
 	{
+		Instance = this;
 		wayDrawer = WayDrawer.Instance;
 		rect = GetComponent<RectTransform>();
 		SetPosition(startLat, startLng);
@@ -69,17 +88,17 @@ public class Aircraft : MonoBehaviour
 
 	private void Update()
 	{
-		if(Input.GetMouseButton(0))
+		if (Input.GetMouseButton(0))
 		{
 			wayDrawer.CreateMultipleWaypoints();
 		}
 
-		if(Input.GetMouseButtonDown(0))
+		if (Input.GetMouseButtonDown(0))
 		{
 			wayDrawer.CreateSingleWaypoint();
 		}
 
-		if(Input.GetMouseButtonUp(0) && wayDrawer.MousePosInMapBounds())
+		if (Input.GetMouseButtonUp(0) && wayDrawer.MousePosInMapBounds())
 		{
 			GetWaypoints();
 		}
@@ -134,7 +153,7 @@ public class Aircraft : MonoBehaviour
 	/// </summary>
 	private void Move()
 	{
-		if(isMoving && positions.Length > 0)
+		if (isMoving && positions.Length > 0)
 		{
 			targetPosition = positions[wayPointIndex];
 			transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
@@ -142,17 +161,17 @@ public class Aircraft : MonoBehaviour
 			targetDirection = targetPosition - (Vector2)transform.position;
 			targetAngle = Mathf.Atan2(targetDirection.normalized.y, targetDirection.normalized.x) * Mathf.Rad2Deg + 90f;
 
-			if(targetAngle != 90f)
+			if (targetAngle != 90f)
 			{
 				transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, 0f, targetAngle), 0.3f);
 			}
 
-			if(Vector2.Distance(transform.position, targetPosition) < 0.0005f)
+			if (Vector2.Distance(transform.position, targetPosition) < 0.0005f)
 			{
 				wayPointIndex++;
 			}
 
-			if(wayPointIndex > positions.Length - 1)
+			if (wayPointIndex > positions.Length - 1)
 			{
 				isMoving = false;
 			}

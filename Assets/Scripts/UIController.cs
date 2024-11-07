@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class UIController : MonoBehaviour
 {
@@ -61,11 +62,11 @@ public class UIController : MonoBehaviour
 	private Slider aircraftSpeedSlider;
 
 	[SerializeField]
-	private Text aircraftSpeedText;
+	private TMP_Text aircraftSpeedText;
 
 	public void Initialize()
 	{
-		Bootstrap.Instance.aircraft.OnPositionChange();
+		Aircraft.Instance.OnPositionChange();
 		Bootstrap.Instance.wayDrawer.OnMousePositionChange();
 
 		Bootstrap.Instance.dmeIndicator.ClosestBeaconsChangedEvent += UpdateDMETextFields;
@@ -74,21 +75,23 @@ public class UIController : MonoBehaviour
 		Bootstrap.Instance.vorIndicator.ClosestBeaconsChangedEvent += UpdateVORTextFields;
 		Bootstrap.Instance.vorIndicator.OnClosestBeaconsChange();
 
-		shortRangeDMEToggle.onValueChanged.AddListener(
-			(isOn) => shortRangeDMEInfoContainer.SetActive(isOn)
-		);
+		shortRangeDMEToggle.onValueChanged.AddListener((isOn) =>
+			shortRangeDMEInfoContainer.SetActive(isOn));
 
-		midRangeDMEToggle.onValueChanged.AddListener(
-			(isOn) => midRangeDMEInfoContainer.SetActive(isOn)
-		);
+		midRangeDMEToggle.onValueChanged.AddListener((isOn) =>
+			midRangeDMEInfoContainer.SetActive(isOn));
 
-		shortRangeVORToggle.onValueChanged.AddListener(
-			(isOn) => shortRangeVORInfoContainer.SetActive(isOn)
-		);
+		shortRangeVORToggle.onValueChanged.AddListener((isOn) =>
+			shortRangeVORInfoContainer.SetActive(isOn));
 
-		midRangeVORToggle.onValueChanged.AddListener(
-			(isOn) => midRangeVORInfoContainer.SetActive(isOn)
-		);
+		midRangeVORToggle.onValueChanged.AddListener((isOn) =>
+			midRangeVORInfoContainer.SetActive(isOn));
+
+		aircraftSpeedSlider.minValue = Aircraft.MIN_SPEED;
+		aircraftSpeedSlider.maxValue = Aircraft.MAX_SPEED;
+		aircraftSpeedSlider.value = Aircraft.Instance.MoveSpeed;
+		aircraftSpeedText.text = Aircraft.Instance.MoveSpeed.ToString();
+		aircraftSpeedSlider.onValueChanged.AddListener(OnAircraftSpeedChange);
 	}
 
 	private string FormatFloat(float value) =>
@@ -110,5 +113,11 @@ public class UIController : MonoBehaviour
 
 		midRangeVORNameTextField.text = names.Item2;
 		midRangeVORAzimuthTextField.text = FormatFloat(values.Item2);
+	}
+
+	private void OnAircraftSpeedChange(float speed)
+	{
+		Aircraft.Instance.MoveSpeed = speed;
+		aircraftSpeedText.text = Aircraft.Instance.MoveSpeed.ToString();
 	}
 }
