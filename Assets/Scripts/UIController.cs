@@ -64,6 +64,15 @@ public class UIController : MonoBehaviour
 	[SerializeField]
 	private TMP_Text aircraftSpeedText;
 
+	[SerializeField]
+	private TMP_Text aircraftSpeedMinText;
+
+	[SerializeField]
+	private TMP_Text aircraftSpeedMaxText;
+
+	[SerializeField]
+	private TMP_Text aircraftSpeedDefaultValText;
+
 	public void Initialize()
 	{
 		Aircraft.Instance.OnPositionChange();
@@ -92,6 +101,10 @@ public class UIController : MonoBehaviour
 		aircraftSpeedSlider.value = Aircraft.Instance.MoveSpeed;
 		aircraftSpeedText.text = Aircraft.Instance.MoveSpeed.ToString();
 		aircraftSpeedSlider.onValueChanged.AddListener(OnAircraftSpeedChange);
+
+		aircraftSpeedMinText.text = Aircraft.MIN_SPEED.ToString();
+		aircraftSpeedMaxText.text = Aircraft.MAX_SPEED.ToString();
+		aircraftSpeedDefaultValText.text = Aircraft.DEFAULT_SPEED.ToString();
 	}
 
 	private string FormatFloat(float value) =>

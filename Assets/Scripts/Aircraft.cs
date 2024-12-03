@@ -41,11 +41,14 @@ public class Aircraft : MonoBehaviour
 	public const float MAX_SPEED = 2f;
 
 	/// <summary>
+	/// Скорость движения по-умолчанию
+	/// </summary>
+	public const float DEFAULT_SPEED = 1.25f;
+
+	/// <summary>
 	/// Текущая скорость движения
 	/// </summary>
-	[SerializeField]
-	[Range(MIN_SPEED, MAX_SPEED)]
-	private float moveSpeed = 1.2f;
+	private float moveSpeed = DEFAULT_SPEED;
 
 	public float MoveSpeed
 	{
